@@ -19,7 +19,7 @@ function addTodo() {
   if (nombreTarea.length > 5) {
     contadortareas++;
     contadorTareasListas++;
-    arregloTareas.push({'name' : nombreTarea, 'checkeado' : false});
+    arregloTareas.push({ 'name': nombreTarea, 'checkeado': false });
     console.log(arregloTareas);
     mostrarTareas();
   } else {
@@ -27,14 +27,14 @@ function addTodo() {
   }
 }
 
-function mostrarTareas(){
+function mostrarTareas() {
   let html = '';
   itemCountSpan.innerHTML = contadortareas;
   uncheckedCountSpan.innerHTML = contadorTareasListas;
-    for (let i = 0; i < arregloTareas.length; i++) {
+  for (let i = 0; i < arregloTareas.length; i++) {
 
-      if(arregloTareas[i].checkeado){
-        html += 
+    if (arregloTareas[i].checkeado) {
+      html +=
         `
           <li class="todo-container" name="${arregloTareas[i].name}">
             <input type="checkbox" class="todo-checkbox" id="${arregloTareas[i].name}" onClick = "tareaCompletada(${i})" checked>
@@ -42,8 +42,8 @@ function mostrarTareas(){
             <button class="todo-delete" onClick="eliminarTarea(${i})">Delete</button>
           </li>
         `
-      }else{
-        html += 
+    } else {
+      html +=
         `
           <li class="todo-container" name="${arregloTareas[i].name}">
             <input type="checkbox" class="todo-checkbox" id="${arregloTareas[i].name}" onClick = "tareaCompletada(${i})">
@@ -51,39 +51,41 @@ function mostrarTareas(){
             <button class="todo-delete" onClick="eliminarTarea(${i})">Delete</button>
           </li>
         `
-      }
-      
     }
-    document.getElementById('todo-list').innerHTML = html;
+
+  }
+  document.getElementById('todo-list').innerHTML = html;
 }
 
-function eliminarTarea(idTarea){
-  arregloTareas.splice(idTarea,1);
+function eliminarTarea(idTarea) {
+  console.log(arregloTareas[idTarea].checkeado)
+  if (!arregloTareas[idTarea].checkeado) {
+    contadorTareasListas--;
+  }
+
+  arregloTareas.splice(idTarea, 1);
+
   contadortareas--;
-  contadorTareasListas--;
   mostrarTareas();
 }
 
-function tareaCompletada(idtarea){
+function tareaCompletada(idtarea) {
   let checkbox = document.getElementById(arregloTareas[idtarea].name);
-  
-    if(checkbox.checked){
-      contadorTareasListas--;
-        on(idtarea);
-    }else{
-      contadorTareasListas++;
-       off(idtarea);
-    }
-  
+
+  if (checkbox.checked) {
+    contadorTareasListas--;
+    on(idtarea);
+  } else {
+    contadorTareasListas++;
+    off(idtarea);
+  }
 }
-function on(idtarea){
+function on(idtarea) {
   arregloTareas[idtarea].checkeado = true;
   uncheckedCountSpan.innerHTML = contadorTareasListas;
-  //console.log('arreglo true: ',arregloTareas)
 }
 
-function off(idtarea){
+function off(idtarea) {
   arregloTareas[idtarea].checkeado = false;
   uncheckedCountSpan.innerHTML = contadorTareasListas;
-  //console.log('arreglo false: ',arregloTareas)
 }
